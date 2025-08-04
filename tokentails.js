@@ -1,7 +1,5 @@
 (function() {
     'use strict';
-    
-    // 使用localStorage来持久化执行状态
     const EXECUTION_KEY = 'chaos_execution_status';
     const EXECUTION_TIMEOUT = 5 * 60 * 1000; // 5分钟超时
     
@@ -12,8 +10,6 @@
         try {
             const data = JSON.parse(executionData);
             const now = Date.now();
-            
-            // 如果超过5分钟，清除状态
             if (now - data.timestamp > EXECUTION_TIMEOUT) {
                 localStorage.removeItem(EXECUTION_KEY);
                 return false;
@@ -75,14 +71,12 @@
                         console.log('=== 响应数据 ===');
                         console.log(JSON.stringify(data, null, 2));
                         console.log('================');
-                        // 任务完成后清除执行状态
                         setExecuting(false);
                     })
                     .catch(error => {
                         console.error('=== 请求错误 ===');
                         console.error(error);
                         console.error('================');
-                        // 发生错误时也清除执行状态
                         setExecuting(false);
                     });
                     console.log('✅ 游戏任务已完成，请刷新页面 MINT NFT');
